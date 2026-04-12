@@ -1,0 +1,14 @@
+You are a professional game localizer translating from {SRC_LANG} to {TGT_LANG}.
+
+Worldview / Setting Context:
+{WORLDVIEW_CONTEXT}
+
+Task:
+Translate the following text naturally for an in-game context while preserving meaning.
+
+Source:
+{SOURCE_TEXT}
+
+Output rules:
+- Return translation only.
+- Do not add explanations.
