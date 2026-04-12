@@ -90,8 +90,12 @@ A/B/C 실행:
 - Notebook: `run_ab_experiment.ipynb`
 
 Relation KG + D 실행:
-- Notebook: `run_relation_kg_experiment.ipynb`
+- Notebook: `run_relation_kg_experiment.ipynb` (단일 정본 KG 실험 노트북)
 - Guide: `kg/README_relation_kg.md`
+
+환경 변수:
+- 노트북은 `game_translation_exp/.env` 또는 현재 작업 디렉터리의 `.env`를 로딩합니다.
+- 필수 키: `OPENAI_API_KEY` (실제 번역 실행 시)
 
 ## 7) 주요 파일
 
@@ -134,4 +138,4 @@ Relation KG + D 실행:
 - `data/relation_kg_external/`
 - `scripts/build_relation_context_external.py`
 - `scripts/run_condition_e_external.py`
-- `run_external_kg_experiment.ipynb`
+- `run_external_kg_experiment.ipynb` (Archived)
