@@ -28,7 +28,7 @@ A/B/C 비교 실험:
 - B: glossary + translation rules
 - C: glossary + translation rules + sentence type (`UI/perk/dialogue/lore`)
 
-추가 확장(초안):
+확장 실험:
 - D: C + relation context (캐릭터/세력 관계 그래프 기반)
 
 ## 3) 데이터 전략 (신규 수집 없음)
@@ -75,7 +75,8 @@ A/B/C 비교 실험:
 파이프라인:
 1. 엔티티 시드 준비 (`character_seeds.csv`)
 2. 관계 후보 자동 추출 (`extract_relation_candidates.py`)
-3. 수동 확정본 작성 (`relation_edges_confirmed.csv`)
+3. 정본 확정 (`relation_edges_confirmed.csv`)
+   - 자동 추출 후보 + 외부 리서치 검증 정보를 통합
 4. 샘플별 relation context 생성 (`build_relation_context.py`)
 5. D 조건 프롬프트로 번역 (`run_condition_d.py`)
 
@@ -126,22 +127,11 @@ Relation KG + D 실행:
 2. confirmed relation edges 소규모(고신뢰)부터 확장
 3. 이후 오픈소스 LLM QLoRA 미세튜닝으로 prompt-only 대비 성능 비교
 
-## 9) External KG 실험 (완전 분리)
+## 9) Legacy (Archive)
 
-외부 리서치(Deep Research) 기반 관계 정보는 기존 결과와 분리해서 실험합니다.
+아래는 분리 실험 단계에서 생성된 보조 파일이며, 현재 정식 비교에서는 사용하지 않습니다.
 
-분리 규칙:
-- 기존 `data/relation_kg/` 파일 수정 금지
-- 기존 `outputs/run_YYYY-MM-DD/` 파일 수정 금지
-- 외부 전용 경로만 사용
-  - `data/relation_kg_external/`
-  - `outputs/run_YYYY-MM-DD_external/`
-  - `eval/eval_sheet_prefilled_E_external_YYYY-MM-DD.csv`
-
-외부 전용 파일:
-- `data/relation_kg_external/relation_edges_external_v1.csv`
-- `data/relation_kg_external/sample_relation_context_external.csv`
-- `data/relation_kg_external/README_external_kg.md`
+- `data/relation_kg_external/`
 - `scripts/build_relation_context_external.py`
 - `scripts/run_condition_e_external.py`
 - `run_external_kg_experiment.ipynb`

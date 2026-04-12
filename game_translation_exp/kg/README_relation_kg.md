@@ -23,10 +23,11 @@ Use character/faction relationship context to improve translation tone, register
   - `data/relation_kg/relation_candidates.csv`
   - `data/relation_kg/relation_edges_auto.csv`
 
-3. Human-in-the-loop confirmation
+3. Canonical edge confirmation
 - Review `relation_candidates.csv` and keep reliable rows.
 - Save confirmed rows into `data/relation_kg/relation_edges_confirmed.csv`
 - Use `data/relation_kg/relation_review_checklist.md` for quick filtering.
+- Include externally researched, citation-backed edges in the same confirmed file.
   with columns:
   - source_character
   - relation
