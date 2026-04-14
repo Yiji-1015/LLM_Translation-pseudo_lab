@@ -22,22 +22,28 @@ from typing import Dict, List, Tuple
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    default_base_dir = Path(__file__).resolve().parents[1]
+    parser.add_argument(
+        "--base-dir",
+        default=str(default_base_dir),
+        help="Project base directory (game_translation_exp).",
+    )
     parser.add_argument(
         "--samples-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/samples_tagged_v1.csv",
+        default=None,
     )
     parser.add_argument(
         "--edges-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/relation_edges_confirmed.csv",
+        default=None,
         help="If missing, script falls back to relation_edges_auto.csv",
     )
     parser.add_argument(
         "--seed-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/character_seeds.csv",
+        default=None,
     )
     parser.add_argument(
         "--out-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/sample_relation_context.csv",
+        default=None,
     )
     parser.add_argument(
         "--top-k",
@@ -95,10 +101,11 @@ def conf_rank(conf: str) -> int:
 
 def main() -> None:
     args = parse_args()
-    samples_csv = Path(args.samples_csv)
-    edges_csv = Path(args.edges_csv)
-    seed_csv = Path(args.seed_csv)
-    out_csv = Path(args.out_csv)
+    base_dir = Path(args.base_dir).expanduser()
+    samples_csv = Path(args.samples_csv).expanduser() if args.samples_csv else base_dir / "data" / "samples_tagged_v1.csv"
+    edges_csv = Path(args.edges_csv).expanduser() if args.edges_csv else base_dir / "data" / "relation_kg" / "relation_edges_confirmed.csv"
+    seed_csv = Path(args.seed_csv).expanduser() if args.seed_csv else base_dir / "data" / "relation_kg" / "character_seeds.csv"
+    out_csv = Path(args.out_csv).expanduser() if args.out_csv else base_dir / "data" / "relation_kg" / "sample_relation_context.csv"
 
     if not edges_csv.exists():
         fallback = edges_csv.with_name("relation_edges_auto.csv")

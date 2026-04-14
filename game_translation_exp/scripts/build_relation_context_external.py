@@ -16,21 +16,27 @@ from typing import Dict, List, Tuple
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
+    default_base_dir = Path(__file__).resolve().parents[1]
+    p.add_argument(
+        "--base-dir",
+        default=str(default_base_dir),
+        help="Project base directory (game_translation_exp).",
+    )
     p.add_argument(
         "--samples-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/samples.csv",
+        default=None,
     )
     p.add_argument(
         "--edges-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg_external/relation_edges_external_v1.csv",
+        default=None,
     )
     p.add_argument(
         "--out-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg_external/sample_relation_context_external.csv",
+        default=None,
     )
     p.add_argument(
         "--alias-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg_external/entity_aliases_external.csv",
+        default=None,
     )
     p.add_argument("--top-k", type=int, default=4)
     return p.parse_args()
@@ -70,10 +76,11 @@ def load_alias_map(alias_csv: Path) -> Dict[str, List[str]]:
 
 def main() -> None:
     args = parse_args()
-    samples_csv = Path(args.samples_csv)
-    edges_csv = Path(args.edges_csv)
-    out_csv = Path(args.out_csv)
-    alias_csv = Path(args.alias_csv)
+    base_dir = Path(args.base_dir).expanduser()
+    samples_csv = Path(args.samples_csv).expanduser() if args.samples_csv else base_dir / "data" / "samples.csv"
+    edges_csv = Path(args.edges_csv).expanduser() if args.edges_csv else base_dir / "data" / "relation_kg_external" / "relation_edges_external_v1.csv"
+    out_csv = Path(args.out_csv).expanduser() if args.out_csv else base_dir / "data" / "relation_kg_external" / "sample_relation_context_external.csv"
+    alias_csv = Path(args.alias_csv).expanduser() if args.alias_csv else base_dir / "data" / "relation_kg_external" / "entity_aliases_external.csv"
 
     edges = []
     with edges_csv.open("r", encoding="utf-8", newline="") as f:

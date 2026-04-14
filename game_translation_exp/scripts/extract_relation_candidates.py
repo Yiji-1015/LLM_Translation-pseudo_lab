@@ -68,24 +68,30 @@ SPEAKER_ATTRIBUTION_PATTERN = re.compile(r"[—-]\\s*([A-Z][A-Za-z0-9'\\-]+(?:\\
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    default_base_dir = Path(__file__).resolve().parents[1]
+    parser.add_argument(
+        "--base-dir",
+        default=str(default_base_dir),
+        help="Project base directory (game_translation_exp).",
+    )
     parser.add_argument(
         "--input-jsonl",
-        default="/Users/yiji/Desktop/work/pseudo_lab/destiny2_translation.json",
+        default=None,
         help="Path to line-delimited JSON data",
     )
     parser.add_argument(
         "--seed-csv",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/character_seeds.csv",
+        default=None,
         help="Path to entity seed CSV",
     )
     parser.add_argument(
         "--out-candidates",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/relation_candidates.csv",
+        default=None,
         help="Output candidate rows",
     )
     parser.add_argument(
         "--out-edges-auto",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp/data/relation_kg/relation_edges_auto.csv",
+        default=None,
         help="Output deduplicated auto edges",
     )
     parser.add_argument(
@@ -189,10 +195,11 @@ def adjust_confidence(base_conf: str, relation: str) -> str:
 
 def main() -> None:
     args = parse_args()
-    input_jsonl = Path(args.input_jsonl)
-    seed_csv = Path(args.seed_csv)
-    out_candidates = Path(args.out_candidates)
-    out_edges_auto = Path(args.out_edges_auto)
+    base_dir = Path(args.base_dir).expanduser()
+    input_jsonl = Path(args.input_jsonl).expanduser() if args.input_jsonl else base_dir.parent / "destiny2_translation.json"
+    seed_csv = Path(args.seed_csv).expanduser() if args.seed_csv else base_dir / "data" / "relation_kg" / "character_seeds.csv"
+    out_candidates = Path(args.out_candidates).expanduser() if args.out_candidates else base_dir / "data" / "relation_kg" / "relation_candidates.csv"
+    out_edges_auto = Path(args.out_edges_auto).expanduser() if args.out_edges_auto else base_dir / "data" / "relation_kg" / "relation_edges_auto.csv"
 
     aliases_by_entity = load_seed_entities(seed_csv)
     alias_patterns = build_alias_regex(aliases_by_entity)

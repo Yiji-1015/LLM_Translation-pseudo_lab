@@ -27,9 +27,10 @@ from pathlib import Path
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    default_base_dir = Path(__file__).resolve().parents[1]
     parser.add_argument(
         "--base-dir",
-        default="/Users/yiji/Desktop/work/pseudo_lab/game_translation_exp",
+        default=str(default_base_dir),
     )
     parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", "gpt-5.4-mini"))
     parser.add_argument("--temperature", type=float, default=0.1)
