@@ -94,7 +94,7 @@ Relation KG + D 실행:
 - Guide: `kg/README_relation_kg.md`
 
 환경 변수:
-- 노트북은 `game_translation_exp/.env` 또는 현재 작업 디렉터리의 `.env`를 로딩합니다.
+- 노트북은 프로젝트 루트의 `.env` (`LLM_Translation-pseudo_lab/.env`)만 로딩합니다.
 - 필수 키: `OPENAI_API_KEY` (실제 번역 실행 시)
 
 ## 7) 주요 파일
