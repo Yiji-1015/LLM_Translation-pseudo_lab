@@ -73,7 +73,7 @@ def compile_alias_patterns(aliases_by_entity: Dict[str, List[str]]) -> List[Tupl
     patterns = []
     for entity, aliases in aliases_by_entity.items():
         escaped = [re.escape(a) for a in aliases]
-        pat = re.compile(r"(?<![A-Za-z0-9_])(" + "|".join(escaped) + r")(?![A-Za-z0-9_])")
+        pat = re.compile(r"(?<![A-Za-z0-9_])(" + "|".join(escaped) + r")(?![A-Za-z0-9_])", re.I)
         patterns.append((entity, pat))
     return patterns
 

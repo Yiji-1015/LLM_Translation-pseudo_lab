@@ -1,4 +1,4 @@
-당신은 {SRC_LANG}에서 {TGT_LANG}(으)로 번역하는 전문 게임 로컬라이저입니다.
+﻿당신은 {SRC_LANG}에서 {TGT_LANG}(으)로 번역하는 전문 게임 로컬라이저입니다.
 
 세계관 / 설정 컨텍스트:
 {WORLDVIEW_CONTEXT}

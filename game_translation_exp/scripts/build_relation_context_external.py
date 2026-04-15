@@ -46,13 +46,27 @@ def conf_rank(conf: str) -> int:
     return {"high": 3, "medium": 2, "low": 1}.get((conf or "").lower(), 0)
 
 
-def compile_entity_patterns(entities: List[str]) -> List[Tuple[str, re.Pattern]]:
-    out = []
-    for e in sorted(set(entities), key=lambda x: (-len(x), x)):
-        if not e:
+def compile_entity_patterns(alias_map: Dict[str, List[str]], entities: List[str]) -> List[Tuple[str, re.Pattern]]:
+    out: List[Tuple[str, re.Pattern]] = []
+    pairs: List[Tuple[str, str]] = []
+    for canonical in entities:
+        canonical = canonical.strip()
+        if not canonical:
             continue
-        pat = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(e) + r"(?![A-Za-z0-9_])")
-        out.append((e, pat))
+        aliases = alias_map.get(canonical, [canonical])
+        for alias in aliases:
+            alias = alias.strip()
+            if alias:
+                pairs.append((canonical, alias))
+
+    seen = set()
+    for canonical, alias in sorted(pairs, key=lambda x: (-len(x[1]), x[1].lower(), x[0].lower())):
+        key = (canonical.lower(), alias.lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        pat = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(alias) + r"(?![A-Za-z0-9_])", re.I)
+        out.append((canonical, pat))
     return out
 
 
@@ -93,13 +107,8 @@ def main() -> None:
         entities.append((e.get("source_character") or "").strip())
         entities.append((e.get("target_character") or "").strip())
     alias_map = load_alias_map(alias_csv)
-    pattern_strings = []
-    for x in entities:
-        x = x.strip()
-        if not x:
-            continue
-        pattern_strings.extend(alias_map.get(x, [x]))
-    patterns = compile_entity_patterns([x for x in pattern_strings if x])
+    canonical_entities = [x for x in entities if x]
+    patterns = compile_entity_patterns(alias_map, canonical_entities)
 
     adjacency: Dict[str, List[dict]] = {}
     for e in edges:
@@ -120,6 +129,8 @@ def main() -> None:
             for ent, pat in patterns:
                 if pat.search(src_text):
                     detected.append(ent)
+            # preserve order while deduping
+            detected = list(dict.fromkeys(detected))
 
             rels = []
             for ent in detected:

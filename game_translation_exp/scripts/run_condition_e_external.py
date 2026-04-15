@@ -2,7 +2,7 @@
 """
 Run isolated external-KG condition E.
 
-E = glossary + rules + sentence_type + relation_context_external
+E = glossary + worldview_context + sentence_type + relation_context_external
 
 Isolation:
 - reads external context file only
@@ -47,7 +47,14 @@ def load_glossary_text(path: Path) -> str:
     return "\n".join(lines)
 
 
-def build_prompt(template: str, src_text: str, stype: str, rel_context: str, glossary: str, style: str) -> str:
+def build_prompt(
+    template: str,
+    src_text: str,
+    stype: str,
+    rel_context: str,
+    glossary: str,
+    worldview_context: str,
+) -> str:
     repl = {
         "{SRC_LANG}": "English",
         "{TGT_LANG}": "Korean",
@@ -55,7 +62,8 @@ def build_prompt(template: str, src_text: str, stype: str, rel_context: str, glo
         "{SENTENCE_TYPE}": stype,
         "{RELATION_CONTEXT}": rel_context,
         "{GLOSSARY}": glossary,
-        "{STYLE_GUIDE_AND_RULES}": style,
+        "{WORLDVIEW_CONTEXT}": worldview_context,
+        "{STYLE_GUIDE_AND_RULES}": worldview_context,
     }
     out = template
     for k, v in repl.items():
@@ -90,7 +98,23 @@ def main() -> None:
         client = OpenAI(api_key=key)
 
     template = prompt_txt.read_text(encoding="utf-8")
-    style = style_md.read_text(encoding="utf-8")
+    worldview_candidates = [
+        base.parent / "worldview_context.txt",
+        base / "worldview_context.txt",
+    ]
+    worldview_context = ""
+    for p in worldview_candidates:
+        if p.exists():
+            worldview_context = p.read_text(encoding="utf-8").strip()
+            break
+    if not worldview_context and style_md.exists():
+        worldview_context = style_md.read_text(encoding="utf-8").strip()
+    if not worldview_context:
+        worldview_context = (
+            "Destiny-like sci-fantasy universe. "
+            "Tone: mysterious, heroic, high-stakes, mythic-technical blend. "
+            "UI text should be concise; gameplay mechanics must remain precise."
+        )
     glossary = load_glossary_text(glossary_csv)
 
     contexts = {}
@@ -110,7 +134,7 @@ def main() -> None:
                 "relation_context",
                 "- No external relation context found. Use default sentence-type style.",
             )
-            prompt = build_prompt(template, src_text, stype, rel_context, glossary, style)
+            prompt = build_prompt(template, src_text, stype, rel_context, glossary, worldview_context)
 
             if args.dry_run:
                 trans = "[DRY_RUN]"

@@ -1,7 +1,7 @@
 sample_id,sentence_type,source_text,detected_entities,relation_context
 S001,UI,Unstoppable Force,,- No external relation context found. Use default sentence-type style.
 S002,UI,Nemean Gauntlets,,- No external relation context found. Use default sentence-type style.
-S003,UI,Icarus Drifter Legs,Drifter,- No external relation context found. Use default sentence-type style.
+S003,UI,Icarus Drifter Legs,The Drifter,- Eris Morn romantic_partner_of The Drifter (confidence: high)\n- The Drifter emotional_anchor_of Eris Morn (confidence: high)\n- Aunor Mahal temporary_ally_of The Drifter (confidence: high)\n- Lodi cooperates_with The Drifter (confidence: medium)
 S004,UI,Light and Dark Saga Exotics,,- No external relation context found. Use default sentence-type style.
 S005,UI,Dreaming Spectrum,,- No external relation context found. Use default sentence-type style.
 S006,UI,Ana: Black Box,,- No external relation context found. Use default sentence-type style.
@@ -52,7 +52,7 @@ S050,dialogue,"""He is the closest thing I will ever have to a son.""",,- No ext
 S051,dialogue,"""Under a sturdy enough helmet, no one can see how damaged you are."" —Reed-7, Exo Titan",,- No external relation context found. Use default sentence-type style.
 S052,dialogue,"""I have foreseen the work that will bring this system together. I'll need your strength."" —Emperor Calus",,- No external relation context found. Use default sentence-type style.
 S053,dialogue,"Do you believe in the Gaiaforms, the energies within planets?",,- No external relation context found. Use default sentence-type style.
-S054,dialogue,"""Many regard the Hive as mere monsters. But they are so much more. Their minds are sharp, like their blades."" —Eris Morn",Eris Morn|Eris,- Eris Morn romantic_partner_of The Drifter (confidence: high)\n- The Drifter emotional_anchor_of Eris Morn (confidence: high)\n- Lodi cooperates_with Eris Morn (confidence: medium)
+S054,dialogue,"""Many regard the Hive as mere monsters. But they are so much more. Their minds are sharp, like their blades."" —Eris Morn",Eris Morn,- Eris Morn romantic_partner_of The Drifter (confidence: high)\n- The Drifter emotional_anchor_of Eris Morn (confidence: high)\n- Lodi cooperates_with Eris Morn (confidence: medium)
 S055,dialogue,"At the edge of the universe, I stared into the infinite deep. It stared back, and was pleased. I would become the herald of its victory, and bear witness for all creation.",,- No external relation context found. Use default sentence-type style.
 S056,dialogue,"A little bolder. A little more focus. You are almost ready… to cast a Shadow. —Calus, Emperor of the Cabal",,- No external relation context found. Use default sentence-type style.
 S057,dialogue,"""We are what we survive. They will not be the Guardians."" —Lord Saladin",,- No external relation context found. Use default sentence-type style.
@@ -61,7 +61,7 @@ S059,dialogue,"""There is an end to everything."" —Emissary of the Nine",,- No
 S060,dialogue,"""Yours, until the last flame dies and all words have been spoken."" —Shin Malphur to you, as you journey forth into the unknown",,- No external relation context found. Use default sentence-type style.
 S061,dialogue,"""I know you."" —Lord Felwinter",,- No external relation context found. Use default sentence-type style.
 S062,dialogue,"""Some speculate that the radiolarian fluid is the last vestige of a biological life-form that became the Vex."" —Sister Faora, ""Theories on the Vex""",,- No external relation context found. Use default sentence-type style.
-S063,dialogue,"""Have you ever stared into the green soulfire flame? There is terror, but also… something warm."" —Eris Morn",Eris Morn|Eris,- Eris Morn romantic_partner_of The Drifter (confidence: high)\n- The Drifter emotional_anchor_of Eris Morn (confidence: high)\n- Lodi cooperates_with Eris Morn (confidence: medium)
+S063,dialogue,"""Have you ever stared into the green soulfire flame? There is terror, but also… something warm."" —Eris Morn",Eris Morn,- Eris Morn romantic_partner_of The Drifter (confidence: high)\n- The Drifter emotional_anchor_of Eris Morn (confidence: high)\n- Lodi cooperates_with Eris Morn (confidence: medium)
 S064,dialogue,"""Osiris said that he started to pity the Red Legion, getting trapped in here for infinite eternities. I think they're getting exactly what they deserve."" —Sagira",,- No external relation context found. Use default sentence-type style.
 S065,lore,"""I am lightning, energy unbound, but directed."" The Splicer felt the Arc energy crackling around him and joined with it.",,- No external relation context found. Use default sentence-type style.
 S066,lore,"A TRESPASSER you are not welcome here HOW DID YOU FIND US? ""She sent me."" You are not your queen. A PUPPET defined by scars We have no need of you. WE HAVE OUR OWN PUPPETS L E T H E R S P E A K ""I came to discuss the future.""",,- No external relation context found. Use default sentence-type style.

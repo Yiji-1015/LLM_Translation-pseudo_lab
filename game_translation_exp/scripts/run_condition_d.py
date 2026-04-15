@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
 Run condition D translation:
-D = glossary + rules + sentence_type + relation_context
+D = glossary + worldview_context + sentence_type + relation_context
 
 Inputs:
 - data/samples.csv
 - data/relation_kg/sample_relation_context.csv
 - data/glossary.csv
-- data/style_guide.md
+- ../worldview_context.txt (preferred) or data/style_guide.md (fallback)
 - prompts/D_glossary_rules_type_relation.txt
 
 Output:
@@ -61,7 +61,14 @@ def load_glossary_text(path: Path) -> str:
     return "\n".join(lines)
 
 
-def build_prompt(template: str, source_text: str, sentence_type: str, relation_context: str, glossary: str, style: str) -> str:
+def build_prompt(
+    template: str,
+    source_text: str,
+    sentence_type: str,
+    relation_context: str,
+    glossary: str,
+    worldview_context: str,
+) -> str:
     prompt = template
     mapping = {
         "{SRC_LANG}": "English",
@@ -70,7 +77,8 @@ def build_prompt(template: str, source_text: str, sentence_type: str, relation_c
         "{SENTENCE_TYPE}": sentence_type,
         "{RELATION_CONTEXT}": relation_context,
         "{GLOSSARY}": glossary,
-        "{STYLE_GUIDE_AND_RULES}": style,
+        "{WORLDVIEW_CONTEXT}": worldview_context,
+        "{STYLE_GUIDE_AND_RULES}": worldview_context,
     }
     for k, v in mapping.items():
         prompt = prompt.replace(k, v)
@@ -104,7 +112,23 @@ def main() -> None:
         client = OpenAI(api_key=api_key)
 
     template = prompt_file.read_text(encoding="utf-8")
-    style = style_md.read_text(encoding="utf-8")
+    worldview_candidates = [
+        base.parent / "worldview_context.txt",
+        base / "worldview_context.txt",
+    ]
+    worldview_context = ""
+    for p in worldview_candidates:
+        if p.exists():
+            worldview_context = p.read_text(encoding="utf-8").strip()
+            break
+    if not worldview_context and style_md.exists():
+        worldview_context = style_md.read_text(encoding="utf-8").strip()
+    if not worldview_context:
+        worldview_context = (
+            "Destiny-like sci-fantasy universe. "
+            "Tone: mysterious, heroic, high-stakes, mythic-technical blend. "
+            "UI text should be concise; gameplay mechanics must remain precise."
+        )
     glossary = load_glossary_text(glossary_csv)
 
     contexts = {}
@@ -132,7 +156,7 @@ def main() -> None:
                 sentence_type=sentence_type,
                 relation_context=relation_context,
                 glossary=glossary,
-                style=style,
+                worldview_context=worldview_context,
             )
 
             if args.dry_run:
